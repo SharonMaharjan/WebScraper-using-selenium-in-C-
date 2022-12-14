@@ -10,45 +10,29 @@ namespace WebScraper1
     {
         static void Main(string[] args)
         {
-            IWebDriver driver = new ChromeDriver();
-            driver.Navigate().GoToUrl("https://www.google.com");
+            //user input to choose program
+            Console.WriteLine("Youtube, Ictjob, Amazon(Which one do you want to scrape?) Press the number of your choice:");
+            Console.WriteLine("1: Youtube");
+            Console.WriteLine("2: Ictjob");
+            Console.WriteLine("3: Amazon");
+            Console.WriteLine("Only numbers!");
 
-            //var searchInput =  driver.FindElement(By.Name("q"));
-             var searchInput =  driver.FindElement(By.CssSelector(".gLFyf"));
-
-             searchInput.SendKeys("resturant");
-             searchInput.Submit();
-
-             var titles = driver.FindElements(By.XPath("//div[@role='heading']"));
-            var output = new List<Record>();
-
-            foreach ( var item in titles)
-             {
-                Console.WriteLine(item.Text);
-                output.Add(new Record() { Item= item.Text});
-             }
-
-
-            //var firstResult = driver.FindElement(By.ClassName("yuRUbf"));
-            //var link = firstResult.FindElement(By.TagName("a"));
-
-            //driver.Navigate().GoToUrl(link.GetAttribute("href"));
-
-            // reference: https://code-maze.com/csharp-writing-csv-file/
-            using (var writer = new StreamWriter("output.csv"))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            switch (int.Parse(Console.ReadLine()))
             {
-                csv.WriteRecords(output);
+                case 1:
+                    WebScraper0.Youtube.Yt();
+                    break;
+                case 2:
+                    WebScraper1.Ictjob.Job();
+                    break;
+                case 3:
+                    WebScraper2.Amazon.Shop();
+                    break;
             }
 
-            // reference: https://code-maze.com/csharp-write-json-into-a-file/
-            JsonFileUtils.SimpleWrite(output, "output.json");
+            
         }
     }
 
-    public class Record
-    {
-        public string Item { get; set; }
-    }
-
+   
 }
