@@ -70,8 +70,6 @@ namespace WebScraper0
         public string ChannelName { get; set; }
         public string View { get; set; }
 
-
-
     }
 
 }
