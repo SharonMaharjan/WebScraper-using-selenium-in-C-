@@ -25,9 +25,9 @@ namespace WebScraper1
                 case 2:
                     WebScraper1.Ictjob.Job();
                     break;
-                case 3:
-                    WebScraper2.Twitter.Tweet();
-                    break;
+                //case 3:
+                //    WebScraper2.Twitter.Tweet();
+                //    break;
             }
 
             
