@@ -32,9 +32,9 @@ namespace WebScraper0
             webElement.SendKeys(Keys.Enter);
             Thread.Sleep(2500);
 
-            //driver.FindElement(By.XPath("//*[text()='Filters']")).Click();
-            //driver.FindElement(By.XPath("//*[text()='Filters']")).Click();
-            //Thread.Sleep(2000);
+            //yo line bata k pani hunna
+            driver.FindElement(By.XPath("//*[text()='Filters']")).Click();
+           Thread.Sleep(2000);
 
             driver.FindElement(By.XPath("//*[@id='label']/yt-formatted-string")).Click();
             Thread.Sleep(2500);
@@ -43,15 +43,22 @@ namespace WebScraper0
             var output = new List<Record>();
             for (int i = 0; i < 5; i++)
             {
-                Console.WriteLine(videos[i].FindElement(By.TagName("a")).GetAttribute("href"));
-                output.Add(new Record() { Item = videos[i].FindElement(By.TagName("a")).GetAttribute("href") });
+                
+                Console.WriteLine("5 records of youtube");
+                output.Add(new Record() { Link = videos[i].FindElement(By.TagName("a")).GetAttribute("href") });
+                output.Add(new Record() { Title = videos[i].FindElement(By.TagName("h3")).Text });
+                output.Add(new Record() { ChannelName = videos[i].FindElement(By.Id("channel-info")).Text });
+                output.Add(new Record() { View = videos[i].FindElement(By.Id("metadata-line")).FindElement(By.XPath("./span[1]")).Text });
+
+
+
             }
             using (var writer = new StreamWriter("youtube.csv"))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 csv.WriteRecords(output);
             }
-           
+            JsonFileUtils.SimpleWrite(output, "output.json");
             //var titles = driver.FindElements(By.XPath("//div[@role='heading']"));
             //var output = new List<Record>();
 
@@ -81,7 +88,13 @@ namespace WebScraper0
     
     public class Record
     {
-        public string Item { get; set; }
+        public string Link { get; set; }
+        public string Title { get; set; }
+        public string ChannelName { get; set; }
+        public string View { get; set; }
+
+
+
     }
 
 }
