@@ -53,8 +53,7 @@ namespace WebScraper1
 
             //for the privacy cookie
             try {
-                //driver.FindElement(By.ClassName("close - context - message close - layer - button")).Click();
-                //driver.FindElement(By.ClassName("close - context - message close - layer - button")).Click();
+                
                 driver.FindElement(By.XPath("/html/body/div[2]/a")).Click();
 
 
@@ -65,24 +64,24 @@ namespace WebScraper1
             int counter = 0;
             var t = true;
             var output = new List<Record>();
-            while (t == true)
-            {
-                var jobs = driver.FindElement(By.Id("search-result"));
+            //while (t == true)
+            //{
+            //    var jobs = driver.FindElement(By.Id("search-result"));
                 
-                foreach (var job in jobs)
-                {
+            //    foreach (var job in jobs)
+            //    {
 
-                    //append part
-                    output.Add(new Record() { job.FindElement(By.ClassName("job-title")).FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/a/h2")).Text });
-                    output.Add(new Record() { job.FindElement(By.ClassName("job-company")).Text });
-                    output.Add(new Record() { job.FindElement(By.ClassName("job-location")).Text });
-                    output.Add(new Record() { job.FindElement(By.ClassName("tag selection-item")).Text });
-                    output.Add(new Record() { job.GetAttribut("href") });
+            //        //append part
+            //        output.Add(new Record() { Title = job.FindElement(By.ClassName("job-title")).FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/a/h2")).Text });
+            //        output.Add(new Record() { Company = job.FindElement(By.ClassName("job-company")).Text });
+            //        output.Add(new Record() { Location = job.FindElement(By.ClassName("job-location")).Text });
+            //        output.Add(new Record() { Keywords = job.FindElement(By.ClassName("tag selection-item")).Text });
+            //        output.Add(new Record() { Link = job.GetAttribut("href") });
                     
 
-                }
+            //    }
 
-            }
+            //}
                 // reference: https://code-maze.com/csharp-writing-csv-file/
                           using (var writer = new StreamWriter("ictjob.csv"))
                           using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
