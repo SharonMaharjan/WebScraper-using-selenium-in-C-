@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -27,17 +28,34 @@ namespace WebScraper0
             IWebDriver driver = new ChromeDriver(chromeDriver,options);
             driver.Navigate().GoToUrl("https://www.youtube.com");
 
+
+
+            WebDriverWait wait = new WebDriverWait(driver,TimeSpan.FromSeconds(5));
+
+            // visible cookies
+            IWebElement ytCookies = wait.Until(
+                driver => driver.FindElement(By.XPath("/html/body/ytd-app/ytd-consent-bump-v2-lightbox/tp-yt-paper-dialog/div[4]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button/yt-touch-feedback-shape/div/div[2]")));
+            ytCookies.Click();
+            //try
+            //{
+            //    driver.FindElement(By.ClassName("yt - spec - touch - feedback - shape__fill")).Click();
+            //}
+            //catch { };
+
+            
             IWebElement webElement = driver.FindElement(By.Name("search_query"));
             webElement.SendKeys(userInput);
             webElement.SendKeys(Keys.Enter);
-            Thread.Sleep(2500);
+            //Thread.Sleep(2500);
 
             //yo line bata k pani hunna
-            driver.FindElement(By.XPath("//*[text()='Filters']")).Click();
-           Thread.Sleep(2000);
+            driver.FindElement(By.XPath("/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div[2]/div/ytd-section-list-renderer/div[1]/div[2]/ytd-search-sub-menu-renderer/div[1]/div/ytd-toggle-button-renderer/yt-button-shape/button/yt-touch-feedback-shape/div/div[2]")).Click();
+            //Thread.Sleep(2000);
+
+            driver.FindElement(By.XPath("/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div[2]/div/ytd-section-list-renderer/div[1]/div[2]/ytd-search-sub-menu-renderer/div[1]/iron-collapse/div/ytd-search-filter-group-renderer[5]/ytd-search-filter-renderer[2]/a/div/yt-formatted-string")).Click();
 
             driver.FindElement(By.XPath("//*[@id='label']/yt-formatted-string")).Click();
-            Thread.Sleep(2500);
+            //Thread.Sleep(2500);
 
             var videos = driver.FindElements(By.TagName("ytd-video-renderer"));
             var output = new List<Record>();
