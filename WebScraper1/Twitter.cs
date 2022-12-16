@@ -11,9 +11,9 @@ using WebScraper1;
 
 namespace WebScraper2
 {
-    class Twitter
+    public class Twitter
     {
-        static string Info(IWebElement title, IWebElement article)
+        public static Record Info(IWebElement title, IWebElement article)
         {
             //requirement info
             IWebElement infoName = title.FindElement(By.TagName("a"));
@@ -21,7 +21,14 @@ namespace WebScraper2
             IWebElement comment = article.FindElement(By.XPath(".//div[@data-testid='reply']"));
             IWebElement like = article.FindElement(By.XPath(".//div[@data-testid='like']"));
             IWebElement retweet = article.FindElement(By.XPath(".//div[@data-testid='retweet']"));
-
+            return new Record()
+            {
+                Title = infoName.Text,
+                Like = like.Text,
+                Comment = comment.Text,
+                Retweet = retweet.Text,
+                Tweet = tweet.Text
+            };
         }
 
         public static void Tweet()
@@ -75,24 +82,21 @@ namespace WebScraper2
 
                 //loops around the amount of tweet as long as we don't get
                 var tweetsnumber = 0;
-                while (tweetsnumber > amount)
-                {
-                    foreach (var article in articles)
+                foreach (var article in articles.Take(amount))
                     {
                         try
                         {
                             IWebElement title = article.FindElement(By.ClassName("r-1777fci"));
-                            output.Add(new Record() { Twitter.Info(title, article) });
+                            output.Add( Twitter.Info(title, article) );
 
                         }
                         catch
                         {
                             IWebElement title = article.FindElement(By.ClassName("r-zl2h9q"));
                             title = title.FindElement(By.ClassName("r-1wbh5a2"));
-                            output.Add(new Record() { Twitter.Info(title, article) });
+                            output.Add( Twitter.Info(title, article) );
                         }
                     }
-                }
                 //the program scrolls down 3500 pixel to load a new article
                 js.ExecuteScript("window.scrollBy(0, 3500);");
                 Thread.Sleep(1500);
