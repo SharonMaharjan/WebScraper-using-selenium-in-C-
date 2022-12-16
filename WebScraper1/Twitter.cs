@@ -13,17 +13,17 @@ namespace WebScraper2
 {
     public class Twitter
     {
-        public static Record Info(IWebElement title, IWebElement article)
+        public static Record Info(IWebElement username, IWebElement article)
         {
             //requirement info
-            IWebElement infoName = title.FindElement(By.TagName("a"));
+            IWebElement infoName = username.FindElement(By.TagName("a"));
             IWebElement tweet = article.FindElement(By.XPath(".//div[@lang='en']"));
             IWebElement comment = article.FindElement(By.XPath(".//div[@data-testid='reply']"));
             IWebElement like = article.FindElement(By.XPath(".//div[@data-testid='like']"));
             IWebElement retweet = article.FindElement(By.XPath(".//div[@data-testid='retweet']"));
             return new Record()
             {
-                Title = infoName.Text,
+                UserName = infoName.Text,
                 Like = like.Text,
                 Comment = comment.Text,
                 Retweet = retweet.Text,
@@ -121,12 +121,12 @@ namespace WebScraper2
         }
         public class Record
         {
-            public string Title { get; set; }
+            public string UserName { get; set; }
             public string Retweet { get; set; }
             public string Comment { get; set; }
             public string Like { get; set; }
             public string Tweet { get; set; }
-            public string Link { get; set; }
+            //public string Link { get; set; }
 
 
 
