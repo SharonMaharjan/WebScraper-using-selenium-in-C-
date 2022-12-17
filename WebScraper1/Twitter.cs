@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -33,7 +34,7 @@ namespace WebScraper2
 
         public static void Tweet()
         {
-            //User input
+            //user enters the input
             Console.WriteLine("Search tweets");
             String userInput = Console.ReadLine();
             Console.WriteLine("How many tweets would you like to scrape? (Numbers only)");
@@ -48,6 +49,9 @@ namespace WebScraper2
             //browser parameter
             IWebDriver driver = new ChromeDriver(chromeDriver, options);
 
+            // explicit wait (it allow the code to halt the program until the condition isn't resolve)
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+
             //allow to scroll from javascript
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             try
@@ -56,32 +60,39 @@ namespace WebScraper2
                 Thread.Sleep(5000);
                 try
                 {
-                    driver.FindElement(By.XPath("//*[text()='Close']")).Click();
+
+                    // visible cookies and accept the cookie
+                    IWebElement tweetCookies = wait.Until(
+                        driver => driver.FindElement(By.XPath("//*[@id='layers']/div/div[2]/div/div/div/div[2]/div[1]")));
+                        tweetCookies.Click();
+                    //notification
+                    IWebElement tweetnotification = wait.Until(
+                       driver => 
+                       driver.FindElement(By.XPath("//*[@id='layers']/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/div[2]")));
+                    
+                    tweetnotification.Click();
+
+                    //Thread.Sleep(2500);
+
                 }
                 catch { };
 
-                //search the user input
-                IWebElement search = driver.FindElement(By.XPath("//input[@aria-label='Search query']"));
-                search.SendKeys(userInput);
-                search.SendKeys(Keys.Enter);
-                Thread.Sleep(2500);
+            
+             //search the user input
+             IWebElement search = driver.FindElement(By.XPath("//input[@aria-label='Search query']"));
+             search.SendKeys(userInput);
+             search.SendKeys(Keys.Enter);
+             Thread.Sleep(2500);
 
+            
+             //current article
+             var articles = driver.FindElements(By.XPath("//article[@tabindex='0']"));
 
-                //current article
-                var articles = driver.FindElements(By.XPath("//article[@tabindex='0']"));
-
-
-                var output = new List<Record>();
-                //append part
-                //output.Add(new Record() { Title = infoname.GetAttribute("href") });
-                //output.Add(new Record() { Retweet = retweet.Text });
-                //output.Add(new Record() { Like = like.Text });
-                //output.Add(new Record() { Comment = comment.Text });
-                //output.Add(new Record() { Tweet = tweet.Text });
-                //output.Add(new Record() { Link = article.FindElement(By.ClassName("r-1d09ksm")).FindElement(By.XPath("./a")).GetAttribute("href") };
-
-                //loops around the amount of tweet as long as we don't get
-                var tweetsnumber = 0;
+            //list of data
+             var output = new List<Record>();
+                
+             //loops around the amount of tweet as long as we don't get
+             var tweetsnumber = 0;
                 foreach (var article in articles.Take(amount))
                     {
                         try
@@ -97,18 +108,23 @@ namespace WebScraper2
                             output.Add( Twitter.Info(title, article) );
                         }
                     }
-                //the program scrolls down 3500 pixel to load a new article
+
+             //the program scrolls down 3500 pixel to load a new article
                 js.ExecuteScript("window.scrollBy(0, 3500);");
                 Thread.Sleep(1500);
                 articles = driver.FindElements(By.XPath("//article[@tabindex='0']"));
-                // reference: https://code-maze.com/csharp-writing-csv-file/
+
+
+             // reference: https://code-maze.com/csharp-writing-csv-file/
+             // writing in csv file
                 using (var writer = new StreamWriter("twitter.csv"))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
                     csv.WriteRecords(output);
                 }
 
-                // reference: https://code-maze.com/csharp-write-json-into-a-file/
+             // reference: https://code-maze.com/csharp-write-json-into-a-file/
+             //writing in json file
                 JsonFileUtils.SimpleWrite(output, "twitter.json");
 
             }
@@ -126,7 +142,7 @@ namespace WebScraper2
             public string Comment { get; set; }
             public string Like { get; set; }
             public string Tweet { get; set; }
-            //public string Link { get; set; }
+            
 
 
 

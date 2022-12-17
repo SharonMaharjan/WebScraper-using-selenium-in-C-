@@ -10,8 +10,8 @@ namespace WebScraper1
     {
         static void Main(string[] args)
         {
-            //user input to choose program
-            Console.WriteLine("Youtube, Ictjob, Twitter(Which one do you want to scrape?) Press the number of your choice:");
+            //user input to choose the option
+            Console.WriteLine("Youtube, Ictjob, Twitter (Which one do you want to scrape?) Press the number of your choice:");
             Console.WriteLine("1: Youtube");
             Console.WriteLine("2: Ictjob");
             Console.WriteLine("3: Twitter");
