@@ -75,10 +75,13 @@ namespace WebScraper0
 
             }
             using (var writer = new StreamWriter("youtube.csv"))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            
+            using (
+                
+                var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 //csv.Configuration.Delimiter = ","
-                //writer.WriteLine("Sep=,");
+                //csv.WriteLine("Sep=,");
                 csv.WriteRecords(output);
             }
             JsonFileUtils.SimpleWrite(output, "youtube.json");
