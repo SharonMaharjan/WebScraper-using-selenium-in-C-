@@ -43,7 +43,7 @@ namespace WebScraper0
             
             webElement.SendKeys(userInput);
             webElement.SendKeys(Keys.Enter);
-            //Thread.Sleep(2500);
+            Thread.Sleep(2500);
             
 
             //clicks filter
@@ -77,7 +77,8 @@ namespace WebScraper0
             using (var writer = new StreamWriter("youtube.csv"))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
-                //csv.Configuration.Delimiter = ",";
+                //csv.Configuration.Delimiter = ","
+                //writer.WriteLine("Sep=,");
                 csv.WriteRecords(output);
             }
             JsonFileUtils.SimpleWrite(output, "youtube.json");
