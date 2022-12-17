@@ -70,16 +70,21 @@ namespace WebScraper0
             foreach (var video in videos.Take(5))
             {
                 Console.WriteLine("5 records of youtube");
-                //it append the data in the list
-                Record record = new Record
-                {
-                    Link = video.FindElement(By.TagName("a")).GetAttribute("href"),
-                    Title = video.FindElement(By.TagName("h3")).Text,
-                    ChannelName = video.FindElement(By.Id("channel-info")).Text,
-                    View = video.FindElement(By.XPath("//*[@id='metadata-line']/span[1]")).Text
-                };
 
-                output.Add(record);
+                try
+                {
+                    output.Add(new Record()
+                    {
+                        Link = video.FindElement(By.TagName("a")).GetAttribute("href"),
+                        Title = video.FindElement(By.TagName("h3")).Text,
+                        ChannelName = video.FindElement(By.Id("channel-info")).Text,
+                        View = video.FindElement(By.XPath("//*[@id='metadata-line']/span[1]")).Text
+                    });
+                }
+                catch (Exception)
+                {
+                }
+               
             }
 
             // reference: https://code-maze.com/csharp-writing-csv-file/

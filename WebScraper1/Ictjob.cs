@@ -13,35 +13,12 @@ namespace WebScraper1
 {
     public class Ictjob
     {
-        public static Record Data(IWebElement username)
-        {
-            //requirement info
-            IWebElement title = username.FindElement(By.ClassName("job-title"));
-            IWebElement company = username.FindElement(By.ClassName("job-company"));
-            IWebElement location = username.FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/span[2]/span[2]/span/span"));
-            IWebElement keywords = username.FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/span[3]"));
-            IWebElement link = username.FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/a"));
-            return new Record()
-            {
-                Title = title.Text,
-                Company = company.Text,
-                Location = location.Text,
-                Keywords = keywords.Text,
-                Link = link.Text,
-
-            };
-
-        }
-
-
-
-
         public static void Job()
         {
             //User input
             Console.WriteLine("What kind of job are you looking at");
             String userInput = Console.ReadLine();
-            
+
             //driver parameter
             var chromeDriver = ChromeDriverService.CreateDefaultService();
             chromeDriver.SuppressInitialDiagnosticInformation = true;
@@ -65,15 +42,15 @@ namespace WebScraper1
             Thread.Sleep(10000);
 
             //it sort out with date 
-            IWebElement datebutton =  driver.FindElement(By.CssSelector("#sort-by-date"));
+            IWebElement datebutton = driver.FindElement(By.CssSelector("#sort-by-date"));
             IJavaScriptExecutor javascriptExecutor = (IJavaScriptExecutor)driver;
             javascriptExecutor.ExecuteScript("arguments[0].click();", datebutton);
-            
 
-            //for the privacy cookie
+
+            //closing  the privacy cookie
             try
             {
-                
+
                 driver.FindElement(By.XPath("/html/body/div[2]/a")).Click();
 
 
@@ -82,38 +59,21 @@ namespace WebScraper1
 
 
             //explicit wait (it allow the code to halt the program until the condition isn't resolve)
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            
-           
-           //it search
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+
+            //it search
             //var jobs = driver.FindElements(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[2]"));
             var jobs = driver.FindElements(By.ClassName("search-item"));
-            IWebElement titleinfo = wait.Until(
-                    driver => driver.FindElement(By.ClassName("job-title")));
+            //IWebElement titleinfo = wait.Until(
+            //        driver => driver.FindElement(By.ClassName("job-title")));
 
             //creating a variable for list
             var output = new List<Record>();
 
             Console.WriteLine("5 records of ictjobs");
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    try
-            //    {
-            //        output.Add(new Record()
-            //        {
-            //            Title = jobs[i].FindElement(By.ClassName("job-title")).Text,
-            //            Company = jobs[i].FindElement(By.ClassName("job-company")).Text,
-            //            Location = jobs[i].FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/span[2]/span[2]/span/span")).Text,
-            //            Keywords = jobs[i].FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/span[3]")).Text,
-            //            Link = jobs[i].FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/a")).Text
 
-            //        });
-            //    }
-            //    catch (Exception)
-            //    {
-            //    }
-            //}
-
+            //loop through job
             foreach (var job in jobs.Take(5))
             {
                 try
@@ -122,10 +82,10 @@ namespace WebScraper1
                     {
                         Title = job.FindElement(By.ClassName("job-title")).Text,
                         Company = job.FindElement(By.ClassName("job-company")).Text,
-                        Location = job.FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/span[2]/span[2]/span/span")).Text,
-                        Keywords = job.FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/span[3]")).Text,
-                        Link = job.FindElement(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[1]/span[2]/a")).GetAttribute("href")
-                        
+                        Location = job.FindElement(By.XPath("//*[@id='search-result-body']/div/ul/li[1]/span[2]/span[2]/span[2]/span/span")).Text,
+                        Keywords = job.FindElement(By.XPath("//*[@id='search-result-body']/div/ul/li[1]/span[2]/span[3]")).Text,
+                        Link = job.FindElement(By.XPath("//*[@id='search-result-body']/div/ul/li[1]/span[2]/a")).GetAttribute("href")
+
                     });
                 }
                 catch (Exception)
@@ -133,30 +93,18 @@ namespace WebScraper1
                 }
             }
 
+
             // // reference: https://code-maze.com/csharp-writing-csv-file/
-            // writing in csv file
-            using (var writer = new StreamWriter("twitter.csv"))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            {
-                csv.WriteRecords(output);
-            }
-
-
-            // reference: https://code-maze.com/csharp-writing-csv-file/
-            using (var stream = File.Open("Ictjobs.csv", FileMode.Append))
-            using (var writer = new StreamWriter(stream))
+            // write in csv file
+            using (var writer = new StreamWriter("Ictjobs.csv"))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 csv.WriteRecords(output);
             }
 
             //// reference: https://code-maze.com/csharp-write-json-into-a-file/
+            //write in json file
             JsonFileUtils.SimpleWrite(output, "Ictjobs.json");
-
-
-
-
-
 
         }
         public class Record

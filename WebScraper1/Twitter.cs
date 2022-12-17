@@ -16,7 +16,8 @@ namespace WebScraper2
     {
         public static Record Info(IWebElement username, IWebElement article)
         {
-            //requirement info
+            //requirement information for twitter
+            //requirement information for twitter
             IWebElement infoName = username.FindElement(By.TagName("a"));
             IWebElement tweet = article.FindElement(By.XPath(".//div[@lang='en']"));
             IWebElement comment = article.FindElement(By.XPath(".//div[@data-testid='reply']"));
@@ -116,7 +117,7 @@ namespace WebScraper2
 
 
              // reference: https://code-maze.com/csharp-writing-csv-file/
-             // writing in csv file
+             // write in csv file
                 using (var writer = new StreamWriter("twitter.csv"))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
@@ -124,7 +125,7 @@ namespace WebScraper2
                 }
 
              // reference: https://code-maze.com/csharp-write-json-into-a-file/
-             //writing in json file
+             //write in json file
                 JsonFileUtils.SimpleWrite(output, "twitter.json");
 
             }
