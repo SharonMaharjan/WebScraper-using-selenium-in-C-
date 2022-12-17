@@ -15,7 +15,7 @@ namespace WebScraper1
             Console.WriteLine("1: Youtube");
             Console.WriteLine("2: Ictjob");
             Console.WriteLine("3: Twitter");
-            Console.WriteLine("Only numbers!");
+            Console.WriteLine("Enter only number!");
 
             switch (int.Parse(Console.ReadLine()))
             {
@@ -29,10 +29,6 @@ namespace WebScraper1
                     WebScraper2.Twitter.Tweet();
                     break;
             }
-
-            
         }
     }
-
-   
 }

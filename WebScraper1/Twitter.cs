@@ -16,7 +16,7 @@ namespace WebScraper2
     {
         public static Record Info(IWebElement username, IWebElement article)
         {
-            //requirement information for twitter
+            
             //requirement information for twitter
             IWebElement infoName = username.FindElement(By.TagName("a"));
             IWebElement tweet = article.FindElement(By.XPath(".//div[@lang='en']"));
@@ -143,10 +143,7 @@ namespace WebScraper2
             public string Comment { get; set; }
             public string Like { get; set; }
             public string Tweet { get; set; }
-            
-
-
-
+         
         }
 
     }

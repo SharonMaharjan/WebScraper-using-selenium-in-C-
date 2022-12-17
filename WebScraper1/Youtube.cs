@@ -64,13 +64,14 @@ namespace WebScraper0
 
             //it gets a current list of videos
             var videos = driver.FindElements(By.TagName("ytd-video-renderer"));
+
+            //list of videos
             var output = new List<Record>();
 
+            Console.WriteLine("5 records of youtube");
             //loop through videos
             foreach (var video in videos.Take(5))
             {
-                Console.WriteLine("5 records of youtube");
-
                 try
                 {
                     output.Add(new Record()
@@ -110,6 +111,4 @@ namespace WebScraper0
         public string View { get; set; }
 
     }
-
-
 }
