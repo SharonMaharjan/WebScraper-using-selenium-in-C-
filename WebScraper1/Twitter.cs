@@ -59,6 +59,7 @@ namespace WebScraper2
             {
                 driver.Navigate().GoToUrl("https://twitter.com/explore");
                 Thread.Sleep(5000);
+
                 try
                 {
 
@@ -66,21 +67,26 @@ namespace WebScraper2
                     IWebElement tweetCookies = wait.Until(
                         driver => driver.FindElement(By.XPath("//*[@id='layers']/div/div[2]/div/div/div/div[2]/div[1]")));
                         tweetCookies.Click();
-                    //notification
-                    IWebElement tweetnotification = wait.Until(
-                       driver => 
-                       driver.FindElement(By.XPath("//*[@id='layers']/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/div[2]")));
                     
-                    tweetnotification.Click();
-
-                    //Thread.Sleep(2500);
 
                 }
                 catch { };
 
-            
+                try
+                {
+                    //notification
+                    IWebElement tweetnotification = wait.Until(
+                       driver =>
+                       driver.FindElement(By.XPath("//*[@id='layers']/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/div[2]")));
+
+                    tweetnotification.Click();
+
+                    //Thread.Sleep(2500);
+                }
+                catch { }
+
              //search the user input
-             IWebElement search = driver.FindElement(By.XPath("//input[@aria-label='Search query']"));
+                IWebElement search = driver.FindElement(By.XPath("//input[@aria-label='Search query']"));
              search.SendKeys(userInput);
              search.SendKeys(Keys.Enter);
              Thread.Sleep(2500);

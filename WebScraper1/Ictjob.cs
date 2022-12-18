@@ -63,8 +63,9 @@ namespace WebScraper1
 
 
             //it search
-            //var jobs = driver.FindElements(By.XPath("/html/body/section/div[1]/div/div[2]/div/div/form/div[2]/div/div/div[2]/section/div/div[2]/div[1]/div/ul/li[2]"));
             var jobs = driver.FindElements(By.ClassName("search-item"));
+
+            //tries to wait 
             //IWebElement titleinfo = wait.Until(
             //        driver => driver.FindElement(By.ClassName("job-title")));
 

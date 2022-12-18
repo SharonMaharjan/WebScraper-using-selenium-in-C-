@@ -79,7 +79,7 @@ namespace WebScraper0
                         Link = video.FindElement(By.TagName("a")).GetAttribute("href"),
                         Title = video.FindElement(By.TagName("h3")).Text,
                         ChannelName = video.FindElement(By.Id("channel-info")).Text,
-                        View = video.FindElement(By.XPath("//*[@id='metadata-line']/span[1]")).Text
+                        View = video.FindElement(By.Id("metadata-line")).FindElement(By.XPath("./span[1]")).Text
                     });
                 }
                 catch (Exception)
